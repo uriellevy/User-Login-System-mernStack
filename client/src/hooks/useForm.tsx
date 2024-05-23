@@ -15,8 +15,6 @@ function useForm<T>(initialValues: T) {
         })
     };
 
-    console.log(values);
-
     return { values, handleChange }
 }
 

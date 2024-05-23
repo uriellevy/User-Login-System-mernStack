@@ -4,7 +4,7 @@ import { AuthContextType } from "../../interfaces/interfaces";
 import { AuthContext } from "../../context/AuthContext";
 
 const NavBar = () => {
-  const { handleLogout} = useContext(AuthContext) as AuthContextType;
+  const { user, handleLogout } = useContext(AuthContext) as AuthContextType;
 
   return (
     <div className="navContainer">
@@ -16,31 +16,36 @@ const NavBar = () => {
       >
         Home
       </NavLink>
-      <NavLink
-        to="/login"
-        className={({ isActive, isPending }) =>
-          isPending ? "pending" : isActive ? "active" : ""
-        }
-      >
-        Login
-      </NavLink>
-      <NavLink
-        to="/signup"
-        className={({ isActive, isPending }) =>
-          isPending ? "pending" : isActive ? "active" : ""
-        }
-      >
-        Signup
-      </NavLink>
-      <NavLink
-        to="/"
-        className={({ isActive, isPending }) =>
-          isPending ? "pending" : isActive ? "active" : ""
-        }
-        onClick={handleLogout}
-      >
-        Logout
-      </NavLink>
+      {user ? (
+        <NavLink
+          to="/"
+          className={({ isActive, isPending }) =>
+            isPending ? "pending" : isActive ? "active" : ""
+          }
+          onClick={handleLogout}
+        >
+          Logout
+        </NavLink>
+      ) : (
+        <>
+          <NavLink
+            to="/login"
+            className={({ isActive, isPending }) =>
+              isPending ? "pending" : isActive ? "active" : ""
+            }
+          >
+            Login
+          </NavLink>
+          <NavLink
+            to="/signup"
+            className={({ isActive, isPending }) =>
+              isPending ? "pending" : isActive ? "active" : ""
+            }
+          >
+            Signup
+          </NavLink>
+        </>
+      )}
     </div>
   );
 };

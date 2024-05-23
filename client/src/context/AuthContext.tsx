@@ -1,5 +1,5 @@
 import * as React from "react";
-import { AuthContextType, ErrorMessage, IAuth } from "../interfaces/interfaces";
+import { AuthContextType, ErrorMessage, IAuth, IUser } from "../interfaces/interfaces";
 import { useNavigate } from "react-router-dom";
 
 export const AuthContext = React.createContext<AuthContextType | null>(null);
@@ -7,9 +7,18 @@ export const AuthContext = React.createContext<AuthContextType | null>(null);
 const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [auth, setAuth] = React.useState<IAuth>({ email: "", password: "" });
+  const [user,setUser] = React.useState<IUser | null>(null);
   const [error, setError] = React.useState("");
   const navigate = useNavigate();
+
+  React.useEffect(() => {
+    const userString = localStorage.getItem("user");
+    if(userString) {
+      const loggedUser =  JSON.parse(userString) as IUser;
+      console.log(loggedUser);
+      setUser(loggedUser);
+    }
+  },[])
 
   const handleLogin = async (auth: IAuth) => {
     if (!auth.email || !auth.password) return;
@@ -29,7 +38,7 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     }
     if(res.ok) {
       console.log(data.message);
-      setAuth(data);
+      setUser(data);
       setError("");
       localStorage.setItem("user", JSON.stringify(data));
       navigate("/home")
@@ -38,8 +47,8 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const handleLogout = async () => {
     try {
-      setAuth({ email: "", password: "" });
-      localStorage.clear();
+      setUser(null);
+      localStorage.removeItem("user");
       setError("");
     } catch (error) {
       console.log(error);
@@ -63,16 +72,18 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     }
     if(res.ok) {
       console.log(data.message);
-      setAuth(data);
+      setUser(data);
       setError("");
       localStorage.setItem("user", JSON.stringify(data));
       navigate("/home")
     }
   };
 
+  console.log(user);
+
   return (
     <AuthContext.Provider
-      value={{ auth, error, handleLogin, handleSignup, handleLogout }}
+      value={{ error,user, handleLogin, handleSignup, handleLogout }}
     >
       {children}
     </AuthContext.Provider>

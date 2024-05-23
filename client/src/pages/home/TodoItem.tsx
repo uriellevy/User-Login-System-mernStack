@@ -7,7 +7,7 @@ interface TodoItemProps {
 }
 
 const TodoItem = ({todo,deleteTodoById,editTodoById}:TodoItemProps) => {
-  console.log(todo._id);
+  
   return (
     <div className='item'>
         <div className="textWrapper">

@@ -24,8 +24,8 @@ export interface IAuth {
   password: string
 }
 export type AuthContextType = {
-    auth: IAuth;
     error: string
+    user: IUser | null
     handleLogin: (auth: IAuth) => Promise<void>
     handleSignup: (auth: IAuth) => Promise<void>
     handleLogout: () => Promise<void>
@@ -34,4 +34,9 @@ export type AuthContextType = {
 
 export interface ErrorMessage {
   message: string
+}
+
+export interface IUser {
+  email: string
+  token: string
 }
