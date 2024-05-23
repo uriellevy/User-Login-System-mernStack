@@ -26,8 +26,8 @@ export interface IAuth {
 export type AuthContextType = {
     error: string
     user: IUser | null
-    handleLogin: (auth: IAuth) => Promise<void>
-    handleSignup: (auth: IAuth) => Promise<void>
+    handleLogin: (auth: IAuth) => Promise<boolean | undefined>
+    handleSignup: (auth: IAuth) => Promise<boolean | undefined>
     handleLogout: () => Promise<void>
 };
 

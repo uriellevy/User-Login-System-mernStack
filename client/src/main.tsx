@@ -7,6 +7,8 @@ import ErrorPage from "./pages/errorPage/ErrorPage.tsx";
 import Login from "./pages/login/Login.tsx";
 import Signup from "./pages/signup/Signup.tsx";
 import Home from "./pages/home/Home.tsx";
+import AuthProvider from "./context/AuthContext.tsx";
+import ProtectedRoute from "./components/protectedRoute/ProtectedRoute.tsx";
 
 const router = createBrowserRouter([
   {
@@ -17,14 +19,17 @@ const router = createBrowserRouter([
       {
         path: "/home",
         element: <Home />,
+        // element: <ProtectedRoute element={<Home />} redirectPath="/home" />,
       },
       {
         path: "/login",
         element: <Login />,
+        // element: <ProtectedRoute element={<Login />} redirectPath="/home" />,
       },
       {
         path: "/signup",
         element: <Signup />,
+        // element: <ProtectedRoute element={<Signup />} redirectPath="/home" />,
       },
     ],
   },
@@ -32,6 +37,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   </React.StrictMode>
 );

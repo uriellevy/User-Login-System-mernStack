@@ -2,15 +2,19 @@ import { FormEvent, useContext } from "react";
 import { AuthContextType, IAuth } from "../../interfaces/interfaces";
 import useForm from "../../hooks/useForm";
 import { AuthContext } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
   const {error, handleSignup} = useContext(AuthContext) as AuthContextType;
   const { values, handleChange } = useForm<IAuth>({ email: "", password: "" });
+  const navigate = useNavigate();
 
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    handleSignup(values);
+    const success = await handleSignup(values);
+    if(!success) return;
+    navigate("/home")
   };
 
   return (

@@ -1,6 +1,5 @@
 import * as React from "react";
 import { AuthContextType, ErrorMessage, IAuth, IUser } from "../interfaces/interfaces";
-import { useNavigate } from "react-router-dom";
 
 export const AuthContext = React.createContext<AuthContextType | null>(null);
 
@@ -9,7 +8,6 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [user,setUser] = React.useState<IUser | null>(null);
   const [error, setError] = React.useState("");
-  const navigate = useNavigate();
 
   React.useEffect(() => {
     const userString = localStorage.getItem("user");
@@ -35,13 +33,14 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     if(!res.ok) {
       console.log(data.message);
       setError(data.message)
+      return false;
     }
     if(res.ok) {
       console.log(data.message);
       setUser(data);
       setError("");
       localStorage.setItem("user", JSON.stringify(data));
-      navigate("/home")
+      return true;
     }
   };
 
@@ -68,18 +67,17 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
     if(!res.ok) {
       console.log(data.message);
-      setError(data.message)
+      setError(data.message);
+      return false;
     }
     if(res.ok) {
       console.log(data.message);
       setUser(data);
       setError("");
       localStorage.setItem("user", JSON.stringify(data));
-      navigate("/home")
+      return true;
     }
   };
-
-  console.log(user);
 
   return (
     <AuthContext.Provider

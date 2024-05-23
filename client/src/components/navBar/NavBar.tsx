@@ -1,10 +1,16 @@
 import { useContext } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { AuthContextType } from "../../interfaces/interfaces";
 import { AuthContext } from "../../context/AuthContext";
 
 const NavBar = () => {
   const { user, handleLogout } = useContext(AuthContext) as AuthContextType;
+  const navigate = useNavigate();
+
+  const onLogout = () => {
+    handleLogout();
+    navigate("/home");
+  }
 
   return (
     <div className="navContainer">
@@ -22,7 +28,7 @@ const NavBar = () => {
           className={({ isActive, isPending }) =>
             isPending ? "pending" : isActive ? "active" : ""
           }
-          onClick={handleLogout}
+          onClick={onLogout}
         >
           Logout
         </NavLink>
