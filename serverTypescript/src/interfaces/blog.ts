@@ -14,3 +14,11 @@ export interface IBlog extends IBlogInput {
     _id: string
     likes: string[]
 }
+
+export interface IBlogDocument extends Document {
+    title: string;
+    subtitle: string;
+    content: string;
+    image: IImage;  
+    likes: string[];
+}
