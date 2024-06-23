@@ -1,6 +1,6 @@
-export interface UserAuth {
+export interface IUserAuth {
     email: string
-    passwordHash: string
+    password: string
 }
 
 export interface IUser extends Document {
@@ -9,8 +9,8 @@ export interface IUser extends Document {
     lastName: string
     email: string
     password: string
-    createDate?: Date
-    updateDate?: Date
+    // createDate?: Date
+    // updateDate?: Date
 }
 
 export interface IJWTPayload {

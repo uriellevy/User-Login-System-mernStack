@@ -17,7 +17,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/blogs",blogRoutes);
-app.use("/api/blogs",userRoutes);
+app.use("/api/users",userRoutes);
 
 app.listen(PORT, () => {
   console.log(chalk.blue.bgBlue.bold(`Server is running on  http://localhost:${PORT}`));
