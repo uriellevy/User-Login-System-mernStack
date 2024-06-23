@@ -32,6 +32,10 @@ class BlogClass {
     static async editBlogById(this: IBlogModel, id: string, blogData: IBlogInput): Promise<IBlogDocument | null> {
         return await this.findByIdAndUpdate(id, blogData, { new: true });
     }
+
+    static async toggleLike(this: IBlogModel, id: string): Promise<IBlogDocument | null> {
+        return await this.findByIdAndUpdate(id, { new: true });
+    }
 }
 
 blogSchema.loadClass(BlogClass);
