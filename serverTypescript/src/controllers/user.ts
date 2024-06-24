@@ -16,12 +16,21 @@ export class UserController {
         }
     }
     static async getAllUsers(req: Request, res: Response) {
+        const email = req.query.email as string;
         try {
-            const users = await UserService.getAllUsers();
-            if (!users) {
-                return handleError(res, 'Users not found', 404);
+            if(!email) {
+                const users = await UserService.getAllUsers();
+                if (!users) {
+                    return handleError(res, 'Users not found', 404);
+                }
+                handleSuccess(res, 'Users fetched successfully', users);
+            }else {
+                const users = await UserService.getUserByEmail(email);
+                if (!users) {
+                    return handleError(res, 'Users not found', 404);
+                }
+                handleSuccess(res, 'Users fetched successfully', users);
             }
-            handleSuccess(res, 'Users fetched successfully', users);
         } catch (error) {
             handleError(res, (error as Error).message);
         }
@@ -41,6 +50,16 @@ export class UserController {
         try {
             const deleted = await UserService.deleteUserById(id);
             handleSuccess(res, "User deleted successful", { deleted })
+        } catch (err) {
+            handleError(res, (err as Error).message, 401)
+        }
+    }
+
+    static async editUserById(req: Request, res: Response) {
+        const {id} = req.params;
+        try {
+            const deleted = await UserService.editUserById(id, {...req.body});
+            handleSuccess(res, "User edited successful", { deleted })
         } catch (err) {
             handleError(res, (err as Error).message, 401)
         }

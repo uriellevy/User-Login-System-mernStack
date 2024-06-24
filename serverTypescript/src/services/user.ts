@@ -14,6 +14,7 @@ export class UserService {
   static async loginUser(userAuthEntity: IUserAuth) {
     const {email, password} = userAuthEntity;
     const user = await  User.findUserByEmail(email);
+    console.log(user)
     if(!user) throw new Error('User not found');
 
     const isPasswordMatch = await bcrypt.compare(password, user.password);
@@ -27,8 +28,18 @@ export class UserService {
     return users;
   }
 
+  static async getUserByEmail(email:string) {
+    const users = await User.findUserByEmail(email);
+    return users;
+  }
+
   static async deleteUserById(id:string) {
     const users = await User.deleteUser(id);
     return users;
+  }
+
+  static async editUserById(id:string, userEntity: IUser) {
+    const user = await User.editUser(id, userEntity);
+    return user;
   }
 }
