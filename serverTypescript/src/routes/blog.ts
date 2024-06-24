@@ -8,11 +8,10 @@ import { requireAuth } from "../middlewares/requireAuth";
 const router = express.Router();
 
 router.get("/", getAllBlogs);
-router.use(requireAuth);
-router.post("/",blogValidationRules,validateBlogRequest, createBlog);
-router.get("/:id", getBlogById);
+router.post("/",blogValidationRules,validateBlogRequest,requireAuth, createBlog);
+router.get("/:id",requireAuth, getBlogById);
 router.delete("/:id", deleteBlogById);
-router.put("/:id", editBlogById);
+router.put("/:id",requireAuth, editBlogById);
 
 
 export default router;

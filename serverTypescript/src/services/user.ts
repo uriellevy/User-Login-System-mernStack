@@ -14,13 +14,12 @@ export class UserService {
   static async loginUser(userAuthEntity: IUserAuth) {
     const {email, password} = userAuthEntity;
     const user = await  User.findUserByEmail(email);
-    console.log(user)
     if(!user) throw new Error('User not found');
 
     const isPasswordMatch = await bcrypt.compare(password, user.password);
     if(!isPasswordMatch) throw Error("Incorrect password");
 
-    const token = generateToken({userId: user._id, isAdmin:false});
+    const token = generateToken({userId: user._id, isAdmin:user.isAdmin});
     return token;
   }
   static async getAllUsers() {
